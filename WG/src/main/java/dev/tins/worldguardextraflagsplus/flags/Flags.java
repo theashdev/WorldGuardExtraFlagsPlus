@@ -86,6 +86,7 @@ public final class Flags
 	public final static Flag<String> PLAYER_COUNT_LIMIT = new IntegerFlag("player-count-limit");
 
 	public final static StateFlag DISABLE_CHAMBERED_ENDERPEARL = new StateFlag("disable-chambered-enderpearl", false);
+	public final static StateFlag DISABLE_FISHING_ROD_PULL = new StateFlag("disable-fishing-rod-pull", false);
 }
 
 

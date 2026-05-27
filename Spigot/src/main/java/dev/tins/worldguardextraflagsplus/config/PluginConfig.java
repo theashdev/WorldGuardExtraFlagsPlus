@@ -190,6 +190,7 @@ public final class PluginConfig {
 		})
 		private boolean disableCollision = true;
 		private boolean disableChamberedEnderpearl = true;
+		private boolean disableFishingRodPull = true;
 	}
 }
 

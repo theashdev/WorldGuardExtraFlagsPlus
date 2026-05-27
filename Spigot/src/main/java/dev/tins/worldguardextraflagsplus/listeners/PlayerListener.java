@@ -382,8 +382,76 @@ public class PlayerListener implements Listener
 			event.setCancelled(true);
 		}
 	}
-	
+
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onPlayerFish(org.bukkit.event.player.PlayerFishEvent event)
+	{
+		Player player = event.getPlayer();
+		LocalPlayer localPlayer = this.worldGuardPlugin.wrapPlayer(player);
+
+		if (this.sessionManager.hasBypass(localPlayer, localPlayer.getWorld()))
+		{
+			return;
+		}
+
+		org.bukkit.event.player.PlayerFishEvent.State state = event.getState();
+		if (state == org.bukkit.event.player.PlayerFishEvent.State.CAUGHT_ENTITY || 
+			state == org.bukkit.event.player.PlayerFishEvent.State.IN_GROUND ||
+			state == org.bukkit.event.player.PlayerFishEvent.State.REEL_IN ||
+			state == org.bukkit.event.player.PlayerFishEvent.State.BITE)
+		{
+			boolean blockAction = false;
+
+			// Check player's location
+			Location playerLoc = BukkitAdapter.adapt(player.getLocation());
+			if (this.regionContainer.createQuery().queryState(playerLoc, localPlayer, Flags.DISABLE_FISHING_ROD_PULL) == State.DENY)
+			{
+				blockAction = true;
+			}
+
+			// Check hook's location
+			if (!blockAction && event.getHook() != null)
+			{
+				Location hookLoc = BukkitAdapter.adapt(event.getHook().getLocation());
+				if (this.regionContainer.createQuery().queryState(hookLoc, localPlayer, Flags.DISABLE_FISHING_ROD_PULL) == State.DENY)
+				{
+					blockAction = true;
+				}
+			}
+
+			// Check caught entity's location
+			if (!blockAction && event.getCaught() != null)
+			{
+				Location caughtLoc = BukkitAdapter.adapt(event.getCaught().getLocation());
+				if (this.regionContainer.createQuery().queryState(caughtLoc, localPlayer, Flags.DISABLE_FISHING_ROD_PULL) == State.DENY)
+				{
+					blockAction = true;
+				}
+			}
+
+			if (blockAction)
+			{
+				event.setCancelled(true);
+
+				if (event.getHook() != null)
+				{
+					event.getHook().remove();
+				}
+
+				org.bukkit.entity.Entity caught = event.getCaught();
+				if (caught != null)
+				{
+					WorldGuardUtils.getScheduler().runAtEntity(caught, task -> {
+						caught.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+					});
+				}
+
+				WorldGuardUtils.getScheduler().runAtEntity(player, task -> {
+					player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+				});
+
+				dev.tins.worldguardextraflagsplus.Messages.sendMessageWithCooldown(player, "disable-fishing-rod-pull-blocked");
+			}
+		}
+	}
 }
-
-
-

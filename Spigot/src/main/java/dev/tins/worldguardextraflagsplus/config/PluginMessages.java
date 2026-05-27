@@ -78,5 +78,8 @@ public final class PluginMessages {
 
 	@Comment("Player count limit denied message")
 	private String playerCountLimitDenied = "&cThis region is full! Maximum players: {limit}";
+
+	@Comment("Disable fishing rod pull flag message")
+	private String disableFishingRodPullBlocked = "&cHey! &7You cannot use fishing rods to pull entities here!";
 }
 
