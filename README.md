@@ -1,4 +1,4 @@
-﻿# WorldGuard ExtraFlags Plus
+# WorldGuard ExtraFlags Plus
 
 A Bukkit plugin extension that provides extra flags for [WorldGuard](https://github.com/EngineHub/WorldGuard).
 
@@ -27,6 +27,8 @@ A Bukkit plugin extension that provides extra flags for [WorldGuard](https://git
   - *Note: `permit-workbenches CRAFT` now only blocks crafting table (3x3) crafting, not inventory (2x2) crafting. Use `inventory-craft` flag to block inventory crafting.*
 - New Flag **"inventory-craft"** | Block inventory crafting (2x2 grid) in regions ✅
 - **Godmode & Fly Flag Enhancement** | The `godmode` and `fly` flags now also disable EssentialsX godmode/fly when entering regions with these flags disabled (EssentialsX integration) ✅
+- New Flag **"disable-fishing-rod-pull"** | Prevent players from using fishing rods to pull entities or grapple themselves in regions (Implemented by Ashyy, Discord: `ashyyhere`) ✅
+
 
 ## About
 
@@ -39,6 +41,7 @@ WorldGuard ExtraFlags Plus is extension to WorldGuard that adds 37+ new flags!
 ## New updates & features developed by (WorldGuard ExtraFlags Plus)
 
 - tins
+- Ashyy (Discord: ashyyhere) - Implemented fishing rod logic
 
 ## Original author (WorldGuard ExtraFlags)
 
